@@ -24,6 +24,10 @@ Route::get('/blog/{blogPost}', [
     \App\Http\Controllers\BlogPostController::class,
     'show'
 ]);
+Route::get('/cat/{cat_name}', [
+    \App\Http\Controllers\BlogPostController::class,
+    'cat_index'
+]);
 Route::get('/blog/create/post', [
     \App\Http\Controllers\BlogPostController::class,
     'create'

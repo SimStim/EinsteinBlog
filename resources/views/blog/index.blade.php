@@ -12,13 +12,28 @@
 					<a href="/blog/create/post" class="btn btn-primary btn-sm">Add Post</a>
 				</div>
 			</div>
-			@forelse($posts as $post)
-			<ul>
-				<li><a href="./blog/{{ $post->id }}">{{ ucfirst($post->title) }}</a></li>
-			</ul>
-			@empty
-			<p class="text-warning">No blog Posts available</p>
-			@endforelse
+			<div class="row">
+				<div class="col-8">
+					@forelse($posts as $post)
+					<ul>
+						<li><a href="/blog/{{ $post->id }}">{{ ucfirst($post->title) }}</a></li>
+					</ul>
+					@empty
+					<p class="text-warning">No blog Posts available</p>
+					@endforelse
+				</div>
+				<div class="col-4">
+					<p>Categories:</p>
+					@forelse($cat_names as $cat_name)
+					<ul>
+						<li><a href="/cat/{{ $cat_name->cat_name }}">{{
+								ucfirst($cat_name->cat_name) }}</a></li>
+					</ul>
+					@empty
+					<p class="text-warning">No categories defined</p>
+					@endforelse
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -23,6 +23,15 @@
 							<textarea id="body" class="form-control" name="body"
 								placeholder="Enter Post Body" rows="5" required>{{ $post->body }}</textarea>
 						</div>
+						<div class="control-group col-12 mt-2">
+							<label for="cat_name">Choose a category:</label> <select
+								id="cat_name" name="cat_name">
+								<option value="IT" @if($post->cat_name == "IT") selected @endif>IT</option>
+								<option value="Philology" @if($post->cat_name == "Philology") selected @endif>Philology</option>
+								<option value="General" @if($post->cat_name == "General") selected @endif>General</option>
+								<option value="Nonsense" @if($post->cat_name == "Nonsense") selected @endif>Nonsense</option>
+							</select>
+						</div>
 					</div>
 					<div class="row mt-2">
 						<div class="control-group col-12 text-center">

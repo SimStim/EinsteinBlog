@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BlogPostController extends Controller
 {
@@ -14,9 +15,27 @@ class BlogPostController extends Controller
      */
     public function index()
     {
+        $cat_names = DB::table('blog_posts')->select('cat_name')
+            ->distinct()
+            ->get(); // fetch all category names
         $posts = BlogPost::all(); // fetch all blog posts from DB
         return view('blog.index', [
-            'posts' => $posts
+            'posts' => $posts,
+            'cat_names' => $cat_names
+        ]); // returns the view with posts
+    }
+
+    /**
+     * Display all posts in a category
+     */
+    public function cat_index(Request $request)
+    {
+        $posts = DB::select('select * from blog_posts where cat_name = ?', [
+            $request->cat_name
+        ]);
+        return view('blog.cat_index', [
+            'posts' => $posts,
+            'cat_name' => $request->cat_name
         ]); // returns the view with posts
     }
 
@@ -41,6 +60,7 @@ class BlogPostController extends Controller
         $newPost = BlogPost::create([
             'title' => $request->title,
             'body' => $request->body,
+            'cat_name' => $request->cat_name,
             'user_id' => 1
         ]);
         return redirect('blog/' . $newPost->id);
@@ -83,7 +103,8 @@ class BlogPostController extends Controller
     {
         $blogPost->update([
             'title' => $request->title,
-            'body' => $request->body
+            'body' => $request->body,
+            'cat_name' => $request->cat_name
         ]);
         return redirect('blog/' . $blogPost->id);
     }

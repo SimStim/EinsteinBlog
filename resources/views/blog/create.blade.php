@@ -6,9 +6,7 @@
 			<div class="border rounded mt-5 pl-4 pr-4 pt-4 pb-4">
 				<h1 class="display-4">Create a New Post</h1>
 				<p>Fill and submit this form to create a post</p>
-
 				<hr>
-
 				<form action="" method="POST">
 					@csrf
 					<div class="row">
@@ -22,6 +20,15 @@
 							<textarea id="body" class="form-control" name="body"
 								placeholder="Enter Post Body" rows="" required></textarea>
 						</div>
+						<div class="control-group col-12 mt-2">
+							<label for="cat_name">Choose a category:</label> <select
+								id="cat_name" name="cat_name">
+								<option value="IT">IT</option>
+								<option value="Philology">Philology</option>
+								<option value="General" selected>General</option>
+								<option value="Nonsense">Nonsense</option>
+							</select>
+						</div>
 					</div>
 					<div class="row mt-2">
 						<div class="control-group col-12 text-center">
@@ -30,9 +37,7 @@
 					</div>
 				</form>
 			</div>
-
 		</div>
 	</div>
 </div>
-
 @endsection

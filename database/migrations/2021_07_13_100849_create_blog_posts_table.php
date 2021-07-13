@@ -1,11 +1,11 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class CreateBlogPostsTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -15,9 +15,10 @@ class CreateBlogPostsTable extends Migration
     {
         Schema::create('blog_posts', function (Blueprint $table) {
             $table->id();
-            $table->text('title'); // Title of our blog post
-            $table->text('body'); // Body of our blog post
+            $table->text('title');  // Title of our blog post
+            $table->text('body');   // Body of our blog post
             $table->text('user_id'); // user_id of our blog post author
+            $table->text('cat_name'); // category name of our blog post
             $table->timestamps();
         });
     }
