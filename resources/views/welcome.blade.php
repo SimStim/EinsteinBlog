@@ -1,10 +1,15 @@
-@extends('layouts.app') @section('content')
-<div class="container">
-	<div class="jumbotron text-center">
-		<h1 class="display-one mt-5">{{ config('app.name') }}</h1>
-		<p>This awesome blog has many articles, click the button below to see
-			them</p>
-		<br> <a href="/blog" class="btn btn-outline-primary">Show Blog</a>
-	</div>
-</div>
+@extends('layouts.app')
+
+@section('title', config('app.name'))
+
+@section('content')
+    <div class="px-4 py-5 mt-4 text-center bg-light rounded-3">
+        <h1 class="display-4 fw-bold">{{ config('app.name') }}</h1>
+        <div class="col-lg-7 mx-auto">
+            <p class="lead mb-4">
+                A minimal blog about curious things. “Make it as simple as possible.” — Albert Einstein.
+            </p>
+            <a href="{{ route('blog.index') }}" class="btn btn-primary btn-lg">Show Blog</a>
+        </div>
+    </div>
 @endsection

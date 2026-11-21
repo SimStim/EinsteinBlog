@@ -1,40 +1,52 @@
-@extends('layouts.app') @section('content')
-<div class="container">
-	<div class="jumbotron text-center">
-		<div class="col-12 pt-2">
-			<div class="row">
-				<div class="col-8">
-					<h1 class="display-one">Our Blog!</h1>
-					<p>Enjoy reading our posts. Click on a post to read!</p>
-				</div>
-				<div class="col-4">
-					<p>Create new Post</p>
-					<a href="/blog/create/post" class="btn btn-primary btn-sm">Add Post</a>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-8">
-					@forelse($posts as $post)
-					<ul>
-						<li><a href="/blog/{{ $post->id }}">{{ ucfirst($post->title) }}</a></li>
-					</ul>
-					@empty
-					<p class="text-warning">No blog Posts available</p>
-					@endforelse
-				</div>
-				<div class="col-4">
-					<p>Categories:</p>
-					@forelse($cat_names as $cat_name)
-					<ul>
-						<li><a href="/cat/{{ $cat_name->cat_name }}">{{
-								ucfirst($cat_name->cat_name) }}</a></li>
-					</ul>
-					@empty
-					<p class="text-warning">No categories defined</p>
-					@endforelse
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+@extends('layouts.app')
+
+@section('title', 'Our Blog')
+
+@section('content')
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-3">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <h1 class="display-5 fw-bold">Our Blog!</h1>
+                    <p class="fs-5 mb-0">Enjoy reading our posts. Click on a post to read it.</p>
+                </div>
+                <a href="{{ route('blog.create') }}" class="btn btn-primary">Add Post</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="h4 mb-3">Posts</h2>
+            @forelse ($posts as $post)
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h3 class="h5 card-title mb-1">
+                            <a href="{{ route('blog.show', $post) }}" class="text-decoration-none">
+                                {{ $post->title }}
+                            </a>
+                        </h3>
+                        <p class="card-text text-muted small mb-0">
+                            {{ $post->category->label() }}
+                            &middot; by {{ $post->author->name }}
+                            &middot; {{ $post->created_at->diffForHumans() }}
+                        </p>
+                    </div>
+                </div>
+            @empty
+                <div class="alert alert-warning">No blog posts available.</div>
+            @endforelse
+        </div>
+
+        <div class="col-md-4">
+            <h2 class="h4 mb-3">Categories</h2>
+            <ul class="list-unstyled">
+                @foreach ($categories as $category)
+                    <li class="mb-2">
+                        <a href="{{ route('blog.category', $category) }}">{{ $category->label() }}</a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
 @endsection

@@ -1,48 +1,63 @@
-@extends('layouts.app') @section('content')
-<div class="container">
-	<div class="jumbotron text-center">
-		<div class="col-12 pt-2">
-			<a href="/blog" class="btn btn-outline-primary btn-sm">Go back</a>
-			<div class="border rounded mt-5 pl-4 pr-4 pt-4 pb-4">
-				<h1 class="display-4">Edit Post</h1>
-				<p>Edit and submit this form to update a post</p>
+@extends('layouts.app')
 
-				<hr>
+@section('title', 'Edit Post')
 
-				<form action="" method="POST">
-					@csrf @method('PUT')
-					<div class="row">
-						<div class="control-group col-12">
-							<label for="title">Post Title</label> <input type="text"
-								id="title" class="form-control" name="title"
-								placeholder="Enter Post Title" value="{{ $post->title }}"
-								required>
-						</div>
-						<div class="control-group col-12 mt-2">
-							<label for="body">Post Body</label>
-							<textarea id="body" class="form-control" name="body"
-								placeholder="Enter Post Body" rows="5" required>{{ $post->body }}</textarea>
-						</div>
-						<div class="control-group col-12 mt-2">
-							<label for="cat_name">Choose a category:</label> <select
-								id="cat_name" name="cat_name">
-								<option value="IT" @if($post->cat_name == "IT") selected @endif>IT</option>
-								<option value="Philology" @if($post->cat_name == "Philology") selected @endif>Philology</option>
-								<option value="General" @if($post->cat_name == "General") selected @endif>General</option>
-								<option value="Nonsense" @if($post->cat_name == "Nonsense") selected @endif>Nonsense</option>
-							</select>
-						</div>
-					</div>
-					<div class="row mt-2">
-						<div class="control-group col-12 text-center">
-							<button id="btn-submit" class="btn btn-primary">Update Post</button>
-						</div>
-					</div>
-				</form>
-			</div>
+@section('content')
+    <p>
+        <a href="{{ route('blog.index') }}" class="btn btn-outline-primary btn-sm">&larr; Go back</a>
+    </p>
 
-		</div>
-	</div>
-</div>
+    <div class="card">
+        <div class="card-body">
+            <h1 class="h2">Edit Post</h1>
+            <p class="text-muted">Edit and submit this form to update a post.</p>
+            <hr>
 
+            @include('partials.errors')
+
+            <form action="{{ route('blog.update', $post) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Post Title</label>
+                    <input type="text" id="title" name="title"
+                           class="form-control @error('title') is-invalid @enderror"
+                           value="{{ old('title', $post->title) }}"
+                           placeholder="Enter post title" required maxlength="255">
+                    @error('title')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="body" class="form-label">Post Body</label>
+                    <textarea id="body" name="body" rows="8"
+                              class="form-control @error('body') is-invalid @enderror"
+                              placeholder="Enter post body" required>{{ old('body', $post->body) }}</textarea>
+                    @error('body')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <select id="category" name="category"
+                            class="form-select @error('category') is-invalid @enderror" required>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->value }}"
+                                @selected(old('category', $post->category->value) === $category->value)>
+                                {{ $category->label() }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('category')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update Post</button>
+            </form>
+        </div>
+    </div>
 @endsection
